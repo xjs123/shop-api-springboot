@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th=“http://www.thymeleaf.org”>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table  border="1" cellspacing="0" class="list">
+    <tr style='color:blue' >
+        <td>sku名字</td>
+        <td>价格</td>
+        <td>库存</td>
+        <td>品牌名</td>
+        <td>分类名</td>
+        </tr>
+
+    <tr th:each="sku : ${skus}">
+        <td th:text="${sku.getSkuName}"></td>
+        <td th:text="${sku.getPrice}"></td>
+        <td th:text="${sku.getStock}"></td>
+        <td th:text="${sku.getBrandName}"></td>
+        <td th:text="${sku.getCateName}"></td>
+    </tr>
+
+</table>
+</body>
+</html>

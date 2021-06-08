@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+    "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fh.shop.api.book.mapper.IBookMapper">
+    <sql id="bookWhere">
+        <where>
+            <if test="bookName !=null and bookName!=''">
+                bookName like concat('%',#{bookName},'%')
+            </if>
+            <if test="minPrice !=null">
+                and  price>= #{minPrice }
+            </if>
+            <if test="maxPrice !=null" >
+                and  price &lt;= #{maxPrice}
+            </if>
+            <if test="minDate !=null">
+                and  bookDate>= #{minDate }
+            </if>
+            <if test="maxDate !=null" >
+                and  bookDate &lt;= #{maxDate}
+            </if>
+            <if test="bookUser !=null and bookUser!=''">
+                bookUser like concat('%',#{bookUser},'%')
+            </if>
+        </where>
+
+    </sql>
+
+    <select id="findCount" parameterType="com.fh.shop.api.book.param.BookQueryParam" resultType="long">
+        select count(*) from t_book
+        <include refid="bookWhere"></include>
+    </select>
+
+    <select id="findPageList" parameterType="com.fh.shop.api.book.param.BookQueryParam" resultType="com.fh.shop.api.book.po.Book">
+        select t.* from
+        (select id,bookName,price,bookDate,bookUser from t_book
+        <include refid="bookWhere"></include>
+        order by id desc )t
+        limit #{start},#{length}
+    </select>
+
+
+</mapper>
